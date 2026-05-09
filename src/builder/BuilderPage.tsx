@@ -139,7 +139,8 @@ export function BuilderPage() {
 	const showScheduleOptions = s.widgetType === 'schedule'
 
 	return (
-		<div class='min-h-screen bg-[#F2F2F7] p-5 flex flex-col gap-5 max-w-lg mx-auto w-full'>
+		<div class='min-h-screen bg-[#F2F2F7]'>
+		<div class='max-w-lg mx-auto w-full p-5 flex flex-col gap-5'>
 			<div class='pt-4'>
 				<h1 class='text-2xl font-bold text-gray-900'>Widget Builder</h1>
 				<p class='mt-1 text-sm text-gray-500'>Configure and generate a widget link</p>
@@ -367,6 +368,7 @@ export function BuilderPage() {
 					</button>
 				</div>
 			</div>
+		</div>
 		</div>
 	)
 }
