@@ -14,6 +14,8 @@ export interface WidgetStyle {
 	colorScheme?: ColorScheme
 	/** Adapt colors from Telegram UI CSS variables */
 	adaptTgTheme?: boolean
+	/** Fully adopt Telegram theme palette (accent, bg, scheme) */
+	adoptTgPalette?: boolean
 }
 
 interface BasePayload {

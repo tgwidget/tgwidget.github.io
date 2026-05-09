@@ -305,12 +305,19 @@ export function BuilderPage() {
 					<div class='flex items-center justify-between'>
 						<div class='flex flex-col gap-0.5'>
 							<span class='text-sm font-medium text-gray-600'>Adapt to Telegram theme</span>
-							<span class='text-xs text-gray-400'>Colors from Telegram UI variables</span>
+							<span class='text-xs text-gray-400'>Accent & tint from Telegram UI</span>
 						</div>
 						<Toggle value={s.adaptTgTheme} onChange={s.setAdaptTgTheme} />
 					</div>
+					<div class='flex items-center justify-between'>
+						<div class='flex flex-col gap-0.5'>
+							<span class='text-sm font-medium text-gray-600'>Adopt full Telegram palette</span>
+							<span class='text-xs text-gray-400'>Accent, background & color scheme</span>
+						</div>
+						<Toggle value={s.adoptTgPalette} onChange={s.setAdoptTgPalette} />
+					</div>
 					<div class='flex gap-3'>
-						<Field label='Accent color'>
+						<Field label={s.adoptTgPalette ? 'Default accent color' : 'Accent color'}>
 							<div class='flex items-center gap-2 rounded-2xl bg-black/5 px-3 py-2'>
 								<input
 									type='color'
