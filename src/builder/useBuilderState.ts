@@ -36,6 +36,9 @@ export interface BuilderState {
   adaptTgTheme: boolean;
   setAdaptTgTheme: (v: boolean) => void;
 
+  adoptTgPalette: boolean;
+  setAdoptTgPalette: (v: boolean) => void;
+
   accent: string;
   setAccent: (v: string) => void;
 
@@ -64,11 +67,12 @@ export function useBuilderState(): BuilderState {
   const [liquidGlass, setLiquidGlass] = useState(false);
   const [colorScheme, setColorScheme] = useState<ColorScheme>("light");
   const [adaptTgTheme, setAdaptTgTheme] = useState(false);
+  const [adoptTgPalette, setAdoptTgPalette] = useState(false);
   const [accent, setAccent] = useState("#007AFF");
   const [tint, setTint] = useState("#F2F2F7");
 
   const dateMode = resolveMode(dateKind, dateRange);
-  const style: WidgetStyle = { liquidGlass, accent, tint, colorScheme, adaptTgTheme };
+  const style: WidgetStyle = { liquidGlass, accent, tint, colorScheme, adaptTgTheme, adoptTgPalette };
 
   const payload =
     widgetType === "date"
@@ -92,6 +96,7 @@ export function useBuilderState(): BuilderState {
     liquidGlass, setLiquidGlass,
     colorScheme, setColorScheme,
     adaptTgTheme, setAdaptTgTheme,
+    adoptTgPalette, setAdoptTgPalette,
     accent, setAccent,
     tint, setTint,
     generatedUrl,

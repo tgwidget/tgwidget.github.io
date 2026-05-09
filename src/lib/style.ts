@@ -67,8 +67,14 @@ function blendWhiteLayers(base: string, alphas: number[]): string {
 
 function resolveBase(style?: WidgetStyle): ResolvedStyle {
   const scheme = style?.colorScheme ?? "light";
-  const dark = scheme === "dark" || (scheme === "auto" && isDarkOS());
+  let dark = scheme === "dark" || (scheme === "auto" && isDarkOS());
   const liquidGlass = style?.liquidGlass ?? false;
+
+  if (style?.adoptTgPalette) {
+    const tgScheme = getTgColorScheme();
+    if (tgScheme) dark = tgScheme === "dark";
+  }
+
   const preset = dark ? DARK : LIGHT;
   const baseTheme = dark ? DARK_THEME : LIGHT_THEME;
 
@@ -78,7 +84,7 @@ function resolveBase(style?: WidgetStyle): ResolvedStyle {
     ? (style?.tint ?? preset.tint)
     : preset.tint;
 
-  if (style?.adaptTgTheme) {
+  if (style?.adoptTgPalette || style?.adaptTgTheme) {
     const p = getTgThemeParams();
     if (p) {
       accent = p.button_color ?? p.accent_text_color ?? p.link_color ?? accent;
