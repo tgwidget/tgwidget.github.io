@@ -1,4 +1,5 @@
 import { hapticImpact } from "../lib/tma";
+import { getWeekdaysShort, getMonthsFull } from "../lib/i18n";
 import type { Theme } from "../lib/style";
 
 interface Props {
@@ -10,11 +11,8 @@ interface Props {
   theme?: Theme;
 }
 
-const WEEKDAYS = ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"];
-const MONTHS = [
-  "January", "February", "March", "April", "May", "June",
-  "July", "August", "September", "October", "November", "December",
-];
+const WEEKDAYS = getWeekdaysShort();
+const MONTHS = getMonthsFull();
 
 function shiftMonth(year: number, month: number, delta: number): [number, number] {
   const d = new Date(year, month - 1 + delta, 1);

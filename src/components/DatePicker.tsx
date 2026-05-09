@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "preact/hooks";
 import { ScrollPicker } from "./ScrollPicker";
 import { CalendarGrid } from "./CalendarGrid";
 import { hapticImpact } from "../lib/tma";
+import { getMonthsShort } from "../lib/i18n";
 import type { Theme } from "../lib/style";
 
 interface Props {
@@ -12,7 +13,7 @@ interface Props {
   theme?: Theme;
 }
 
-const MONTHS_SHORT = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+const MONTHS_SHORT = getMonthsShort();
 
 function daysInMonth(year: number, month: number) {
   return new Date(year, month, 0).getDate();
