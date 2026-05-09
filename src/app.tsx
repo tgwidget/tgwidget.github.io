@@ -1,6 +1,7 @@
 import { useEffect, useState } from "preact/hooks";
 import { parsePayload, type WidgetPayload } from "./lib/payload";
 import { tmaReady } from "./lib/tma";
+import { initLocale } from "./lib/i18n";
 import { DateWidget } from "./widgets/date/DateWidget";
 import { ColorWidget } from "./widgets/color/ColorWidget";
 import { ScheduleWidget } from "./widgets/schedule/ScheduleWidget";
@@ -11,6 +12,7 @@ export function App() {
 
   useEffect(() => {
     tmaReady();
+    initLocale();
     const p = parsePayload();
     setPayload(p ?? "none");
   }, []);

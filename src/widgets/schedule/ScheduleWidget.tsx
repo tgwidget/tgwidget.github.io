@@ -3,14 +3,13 @@ import type { SchedulePayload } from "../../lib/payload";
 import { encodeResult } from "../../lib/payload";
 import { submitAndClose, hapticNotification, hapticImpact } from "../../lib/tma";
 import { useResolvedStyle, cardClass, pageProps, buttonStyle } from "../../lib/style";
+import { t, getDaysShort } from "../../lib/i18n";
 import { ScrollPicker } from "../../components/ScrollPicker";
 import { Toggle } from "../../components/Toggle";
 
 interface Props {
   payload: SchedulePayload;
 }
-
-const DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 const HOURS = Array.from({ length: 24 }, (_, i) => String(i).padStart(2, "0"));
 const MINUTES = Array.from({ length: 60 }, (_, i) => String(i).padStart(2, "0"));
 
@@ -80,7 +79,7 @@ function DayRow({
             {slot.fromH}:{slot.fromM} – {slot.toH}:{slot.toM}
           </button>
         ) : (
-          <span class="flex-1 text-sm" style={{ color: theme.separator }}>Off</span>
+          <span class="flex-1 text-sm" style={{ color: theme.separator }}>{t("off")}</span>
         )}
       </div>
 
@@ -105,6 +104,7 @@ function DayRow({
 
 export function ScheduleWidget({ payload }: Props) {
   const s = useResolvedStyle(payload.style);
+  const DAYS = getDaysShort();
   const [slots, setSlots] = useState<DaySlot[]>(() => DAYS.map(defaultSlot));
   const [expandedDay, setExpandedDay] = useState<number | null>(null);
 
@@ -120,7 +120,7 @@ export function ScheduleWidget({ payload }: Props) {
   return (
     <div {...pageProps(s.tint, s.liquidGlass, s.dark)}>
       <div class={`w-full max-w-sm ${cardClass(s.liquidGlass, s.dark)}`}>
-        <h2 class="text-xl font-semibold tracking-tight" style={{ color: s.theme.text }}>Weekly Schedule</h2>
+        <h2 class="text-xl font-semibold tracking-tight" style={{ color: s.theme.text }}>{t("weekly_schedule")}</h2>
 
         <div class="flex flex-col">
           {DAYS.map((day, i) => (
@@ -147,7 +147,7 @@ export function ScheduleWidget({ payload }: Props) {
           style={buttonStyle(s.accent)}
           class="mt-1 w-full rounded-2xl py-4 text-base font-semibold text-white shadow-lg active:scale-95 transition-all duration-150"
         >
-          Confirm
+          {t("confirm")}
         </button>
       </div>
     </div>

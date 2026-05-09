@@ -2,6 +2,7 @@ import type { DatePayload } from "../../lib/payload";
 import { encodeResult } from "../../lib/payload";
 import { submitAndClose, hapticNotification } from "../../lib/tma";
 import { useResolvedStyle, cardClass, pageProps, buttonStyle } from "../../lib/style";
+import { t } from "../../lib/i18n";
 import { ScrollPicker } from "../../components/ScrollPicker";
 import { DatePicker } from "../../components/DatePicker";
 import { useDateState } from "./useDateState";
@@ -13,13 +14,16 @@ interface Props {
 const HOURS = Array.from({ length: 24 }, (_, i) => String(i).padStart(2, "0"));
 const MINUTES = Array.from({ length: 60 }, (_, i) => String(i).padStart(2, "0"));
 
-const MODE_TITLE: Record<string, string> = {
-  date: "Select Date",
-  time: "Select Time",
-  datetime: "Select Date & Time",
-  "date-range": "Select Date Range",
-  "time-range": "Select Time Range",
-};
+function getModeTitle(mode: string): string {
+  switch (mode) {
+    case "date": return t("select_date");
+    case "time": return t("select_time");
+    case "datetime": return t("select_datetime");
+    case "date-range": return t("select_date_range");
+    case "time-range": return t("select_time_range");
+    default: return t("select_date");
+  }
+}
 
 function TimePicker({ label, hours, minutes, setHours, setMinutes, theme }: {
   label?: string;
@@ -63,7 +67,7 @@ export function DateWidget({ payload }: Props) {
     <div {...pageProps(s.tint, s.liquidGlass, s.dark)}>
       <div class={`w-full max-w-sm ${cardClass(s.liquidGlass, s.dark)}`}>
         <h2 class="text-xl font-semibold tracking-tight" style={{ color: s.theme.text }}>
-          {MODE_TITLE[payload.mode]}
+          {getModeTitle(payload.mode)}
         </h2>
 
         {showDate && !showDateEnd && (
@@ -72,8 +76,8 @@ export function DateWidget({ payload }: Props) {
 
         {showDateEnd && (
           <>
-            <DatePicker value={date} onChange={setDate} accent={s.accent} label="From" theme={s.theme} />
-            <DatePicker value={dateEnd} onChange={setDateEnd} accent={s.accent} label="To" theme={s.theme} />
+            <DatePicker value={date} onChange={setDate} accent={s.accent} label={t("from")} theme={s.theme} />
+            <DatePicker value={dateEnd} onChange={setDateEnd} accent={s.accent} label={t("to")} theme={s.theme} />
           </>
         )}
 
@@ -83,8 +87,8 @@ export function DateWidget({ payload }: Props) {
 
         {showTimeRange && (
           <>
-            <TimePicker label="From" hours={hours} minutes={minutes} setHours={setHours} setMinutes={setMinutes} theme={s.theme} />
-            <TimePicker label="To" hours={hoursEnd} minutes={minutesEnd} setHours={setHoursEnd} setMinutes={setMinutesEnd} theme={s.theme} />
+            <TimePicker label={t("from")} hours={hours} minutes={minutes} setHours={setHours} setMinutes={setMinutes} theme={s.theme} />
+            <TimePicker label={t("to")} hours={hoursEnd} minutes={minutesEnd} setHours={setHoursEnd} setMinutes={setMinutesEnd} theme={s.theme} />
           </>
         )}
 
@@ -93,7 +97,7 @@ export function DateWidget({ payload }: Props) {
           style={buttonStyle(s.accent)}
           class="mt-1 w-full rounded-2xl py-4 text-base font-semibold text-white shadow-lg active:scale-95 transition-all duration-150"
         >
-          Confirm
+          {t("confirm")}
         </button>
       </div>
     </div>
