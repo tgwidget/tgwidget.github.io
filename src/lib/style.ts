@@ -50,6 +50,21 @@ function isDarkOS(): boolean {
   return window.matchMedia("(prefers-color-scheme: dark)").matches;
 }
 
+function parseHexColor(hex: string): [number, number, number] {
+  const h = hex.replace("#", "");
+  return [parseInt(h.slice(0, 2), 16), parseInt(h.slice(2, 4), 16), parseInt(h.slice(4, 6), 16)];
+}
+
+function blendWhiteLayers(base: string, alphas: number[]): string {
+  let [r, g, b] = parseHexColor(base);
+  for (const a of alphas) {
+    r = r + (255 - r) * a;
+    g = g + (255 - g) * a;
+    b = b + (255 - b) * a;
+  }
+  return `rgb(${Math.round(r)},${Math.round(g)},${Math.round(b)})`;
+}
+
 function resolveBase(style?: WidgetStyle): ResolvedStyle {
   const scheme = style?.colorScheme ?? "light";
   const dark = scheme === "dark" || (scheme === "auto" && isDarkOS());
@@ -73,8 +88,16 @@ function resolveBase(style?: WidgetStyle): ResolvedStyle {
 
   // For liquid glass the card sits on a blurred gradient — fade must be transparent
   // so the picker fades into whatever is behind it, not into a solid color.
-  // For solid backgrounds the fade color must exactly match the page bg (tint).
-  const fade = liquidGlass ? "transparent" : tint;
+  // For solid dark backgrounds the picker sits inside card (8% white) + surface (13% white),
+  // so fade must match the effective rendered surface color, not the raw page bg.
+  let fade: string;
+  if (liquidGlass) {
+    fade = "transparent";
+  } else if (dark) {
+    fade = blendWhiteLayers(tint, [0.08, 0.13]);
+  } else {
+    fade = tint;
+  }
 
   const theme: Theme = { ...baseTheme, fade };
   return { accent, tint, liquidGlass, dark, theme };
