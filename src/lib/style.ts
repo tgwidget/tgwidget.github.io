@@ -39,11 +39,11 @@ const LIGHT_THEME: Theme = {
 
 const DARK_THEME: Theme = {
   text:      "#FFFFFF",
-  textSub:   "rgba(235,235,245,0.6)",
-  textMuted: "rgba(235,235,245,0.3)",
-  surface:   "rgba(120,120,128,0.24)",
+  textSub:   "rgba(235,235,245,0.8)",
+  textMuted: "rgba(235,235,245,0.45)",
+  surface:   "rgba(255,255,255,0.13)",
   fade:      "#1C1C1E",
-  separator: "rgba(84,84,88,0.65)",
+  separator: "rgba(255,255,255,0.18)",
 };
 
 function isDarkOS(): boolean {
@@ -119,7 +119,7 @@ export function cardClass(liquidGlass: boolean, dark: boolean): string {
     ].join(" ");
   }
   if (dark) {
-    return "rounded-3xl p-6 flex flex-col gap-5 bg-[#2C2C2E] shadow-xl border border-white/8";
+    return "rounded-3xl p-6 flex flex-col gap-5 bg-white/8 backdrop-blur-sm shadow-xl border border-white/10";
   }
   return "rounded-3xl p-6 flex flex-col gap-5 bg-white/90 backdrop-blur-sm shadow-xl border border-white/60";
 }
