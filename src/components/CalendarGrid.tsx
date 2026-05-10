@@ -11,8 +11,7 @@ interface Props {
   theme?: Theme;
 }
 
-const WEEKDAYS = getWeekdaysShort();
-const MONTHS = getMonthsFull();
+
 
 function shiftMonth(year: number, month: number, delta: number): [number, number] {
   const d = new Date(year, month - 1 + delta, 1);
@@ -20,6 +19,8 @@ function shiftMonth(year: number, month: number, delta: number): [number, number
 }
 
 export function CalendarGrid({ year, month, day, onChange, accent, theme }: Props) {
+  const WEEKDAYS = getWeekdaysShort();
+  const MONTHS = getMonthsFull();
   const firstDow = (new Date(year, month - 1, 1).getDay() + 6) % 7;
   const daysInMonth = new Date(year, month, 0).getDate();
   const today = new Date();
