@@ -9,7 +9,7 @@ Beautiful Telegram Mini App widgets for bots — date/time pickers, color picker
 ## How it works
 
 1. Widget URL is generated via SDK or online generator
-2. User opens the URL as a Telegram Mini App
+2. User opens this URL as a Telegram Mini App
 3. User picks a value (date, color, schedule)
 4. Result is sent back to the bot via deep link (`t.me/your_bot?start=VALUE`)
 
