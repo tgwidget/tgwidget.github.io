@@ -1,4 +1,4 @@
-# TeleWidget
+# TgWidget
 
 [English version](README.md)
 
