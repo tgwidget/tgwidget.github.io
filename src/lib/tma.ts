@@ -22,6 +22,8 @@ declare global {
         openTelegramLink(url: string): void;
         close(): void;
         ready(): void;
+        disableVerticalSwipes?(): void;
+        isVerticalSwipesEnabled?: boolean;
         initData: string;
         initDataUnsafe?: {
           user?: {
@@ -58,7 +60,10 @@ export function submitAndClose(tgUrl: string): void {
 }
 
 export function tmaReady(): void {
-  if (isTMA()) window.Telegram!.WebApp!.ready();
+  if (isTMA()) {
+    window.Telegram!.WebApp!.ready();
+    window.Telegram!.WebApp!.disableVerticalSwipes?.();
+  }
 }
 
 export function hapticImpact(style: HapticImpactStyle = "light"): void {

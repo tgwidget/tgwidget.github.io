@@ -13,7 +13,7 @@ interface Props {
   theme?: Theme;
 }
 
-const MONTHS_SHORT = getMonthsShort();
+
 
 function daysInMonth(year: number, month: number) {
   return new Date(year, month, 0).getDate();
@@ -40,7 +40,7 @@ export function DatePicker({ value, onChange, accent, label, theme }: Props) {
     () => Array.from({ length: daysInMonth(year, month) }, (_, i) => pad(i + 1)),
     [year, month],
   );
-  const months = MONTHS_SHORT;
+  const months = getMonthsShort();
   const years = useMemo(() => {
     const cur = new Date().getFullYear();
     return Array.from({ length: 30 }, (_, i) => String(cur - 5 + i));
@@ -128,7 +128,7 @@ export function DatePicker({ value, onChange, accent, label, theme }: Props) {
         >
           <div class="flex items-center justify-center gap-1 rounded-2xl py-2" style={{ backgroundColor: theme?.surface ?? "rgba(0,0,0,0.06)" }}>
             <ScrollPicker items={days} value={pad(day)} onChange={(v) => emit(year, month, parseInt(v))} width="52px" theme={theme} />
-            <ScrollPicker items={months} value={months[month - 1]!} onChange={(v) => emit(year, MONTHS_SHORT.indexOf(v) + 1, day)} width="96px" theme={theme} />
+            <ScrollPicker items={months} value={months[month - 1]!} onChange={(v) => emit(year, months.indexOf(v) + 1, day)} width="96px" theme={theme} />
             <ScrollPicker items={years} value={String(year)} onChange={(v) => emit(parseInt(v), month, day)} width="72px" theme={theme} />
           </div>
         </div>
