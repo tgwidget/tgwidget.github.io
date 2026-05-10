@@ -1,5 +1,7 @@
 # TeleWidget
 
+[Русская версия](README.ru.md)
+
 Beautiful Telegram Mini App widgets for bots — date/time pickers, color pickers, and weekly schedules.
 
 **Live**: [tgwidget.github.io](https://tgwidget.github.io/)
@@ -26,54 +28,51 @@ Beautiful Telegram Mini App widgets for bots — date/time pickers, color picker
 | Python | `pip install tgwidget` | [tgwidget-python](https://github.com/tgwidget/tgwidget-python) |
 | Node.js | `npm install tgwidget` | [tgwidget-node](https://github.com/tgwidget/tgwidget-node) |
 
+### Quick start (Node.js)
+
+```typescript
+import { tgwidget } from 'tgwidget'
+
+// Generate widget URL
+const widget = tgwidget('bot_username').date({ mode: 'datetime' })
+const url = widget.url()
+
+// Parse result (handles /start prefix automatically)
+const result = widget.parse('/start 2025-03-15_14-30')
+result.dateObj // native Date object
+```
+
 ### Quick start (Python)
 
 ```python
 from tgwidget import TgWidget
 
 # Generate widget URL
-widget = TgWidget("your_bot").date(mode="datetime")
+widget = TgWidget('bot_username').date(mode='datetime')
 url = widget.url()
-# → https://tgwidget.github.io/?p=...
 
 # Parse result (handles /start prefix automatically)
-result = widget.parse("/start 2025-03-15_14-30")
+result = widget.parse('/start 2025-03-15_14-30')
 result.datetime_obj  # datetime.datetime(2025, 3, 15, 14, 30)
-```
-
-### Quick start (Node.js)
-
-```typescript
-import { tgwidget } from "tgwidget";
-
-// Generate widget URL
-const widget = tgwidget("your_bot").date({ mode: "datetime" });
-const url = widget.url();
-
-// Parse result (handles /start prefix automatically)
-const result = widget.parse("/start 2025-03-15_14-30");
-result.dateObj  // native Date object
 ```
 
 ## Styling
 
 Widgets support custom styling via the SDK:
 
-```python
-url = (
-    TgWidget("your_bot")
-    .date(mode="date")
-    .style(
-        color_scheme="dark",
-        accent="#FF6600",
-        liquid_glass=True,
-        adopt_tg_palette=True,
-    )
-    .url()
-)
+```typescript
+const url = tgwidget('bot_username')
+  .date({ mode: 'date' })
+  .style({
+    colorScheme: 'dark',
+    accent: '#FF6600',
+    liquidGlass: true,
+    adoptTgPalette: true,
+  })
+  .url()
 ```
 
-Options: `color_scheme` (`light`/`dark`/`auto`), `accent`, `tint`, `liquid_glass`, `adapt_tg_theme`, `adopt_tg_palette`.
+Options: `colorScheme` (`light`/`dark`/`auto`), `accent`, `tint`, `liquidGlass`, `adaptTgTheme`, `adoptTgPalette`.
 
 ## Development
 
