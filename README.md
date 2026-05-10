@@ -4,7 +4,7 @@
 
 Beautiful Telegram Mini App widgets for bots — date/time pickers, color pickers, and weekly schedules.
 
-**Live**: [tgwidget.github.io](https://tgwidget.github.io/)
+**Online Generator**: [tgwidget.github.io](https://tgwidget.github.io/)
 
 ## How it works
 
