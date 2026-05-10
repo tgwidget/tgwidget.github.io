@@ -37,6 +37,9 @@ import { tgwidget } from 'tgwidget'
 const widget = tgwidget('bot_username').date({ mode: 'datetime' })
 const url = widget.url()
 
+// Format hint for users
+widget.pattern // 'YYYY-MM-DD HH:MM'
+
 // Parse result (handles /start prefix automatically)
 const result = widget.parse('/start 2025-03-15_14-30')
 result.dateObj // native Date object
@@ -50,6 +53,9 @@ from tgwidget import TgWidget
 # Generate widget URL
 widget = TgWidget('bot_username').date(mode='datetime')
 url = widget.url()
+
+# Format hint for users
+widget.pattern  # 'YYYY-MM-DD HH:MM'
 
 # Parse result (handles /start prefix automatically)
 result = widget.parse('/start 2025-03-15_14-30')
