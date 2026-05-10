@@ -2,7 +2,7 @@
 
 [English version](README.md)
 
-Красивые виджеты Telegram Mini App для ботов — выбор даты/времени, цвета и недельного расписания.
+Красивые виджеты Telegram Mini App для ботов — выбор даты/времени, цвета или недельного расписания.
 
 **Демо**: [tgwidget.github.io](https://tgwidget.github.io/)
 
