@@ -22,6 +22,7 @@ declare global {
         openTelegramLink(url: string): void;
         close(): void;
         ready(): void;
+        expand(): void;
         disableVerticalSwipes?(): void;
         isVerticalSwipesEnabled?: boolean;
         initData: string;
@@ -62,6 +63,7 @@ export function submitAndClose(tgUrl: string): void {
 export function tmaReady(): void {
   if (isTMA()) {
     window.Telegram!.WebApp!.ready();
+    window.Telegram!.WebApp!.expand();
     window.Telegram!.WebApp!.disableVerticalSwipes?.();
   }
 }
