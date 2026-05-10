@@ -1,6 +1,6 @@
 import type { WidgetStyle } from "./payload";
 import { useEffect, useState } from "preact/hooks";
-import { getTgThemeParams, onTgThemeChange } from "./tma";
+import { getTgThemeParams, getTgColorScheme, onTgThemeChange } from "./tma";
 
 export interface Theme {
   /** Primary text */
