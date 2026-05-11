@@ -1,5 +1,5 @@
 import { useState } from "preact/hooks";
-import type { DateKind, DateMode, DateFormat, DateOrder, ColorFormat, ColorScheme, WidgetStyle } from "../lib/payload";
+import type { DateKind, DateMode, DateFormat, DateOrder, ColorFormat, ColorScheme, ScheduleFormat, WidgetStyle } from "../lib/payload";
 
 export type WidgetType = "date" | "color" | "schedule";
 
@@ -38,6 +38,9 @@ export interface BuilderState {
 
   colorFormat: ColorFormat;
   setColorFormat: (v: ColorFormat) => void;
+
+  scheduleFormat: ScheduleFormat;
+  setScheduleFormat: (v: ScheduleFormat) => void;
 
   liquidGlass: boolean;
   setLiquidGlass: (v: boolean) => void;
@@ -80,6 +83,7 @@ export function useBuilderState(): BuilderState {
   const [minValue, setMinValue] = useState("");
   const [maxValue, setMaxValue] = useState("");
   const [colorFormat, setColorFormat] = useState<ColorFormat>("hex");
+  const [scheduleFormat, setScheduleFormat] = useState<ScheduleFormat>("bunch");
   const [liquidGlass, setLiquidGlass] = useState(false);
   const [colorScheme, setColorScheme] = useState<ColorScheme>("light");
   const [adaptTgTheme, setAdaptTgTheme] = useState(false);
@@ -103,7 +107,7 @@ export function useBuilderState(): BuilderState {
       ? datePayload
       : widgetType === "color"
       ? { widget: "color" as const, format: colorFormat, bot_username: botUsername, style }
-      : { widget: "schedule" as const, format: "bunch" as const, bot_username: botUsername, style };
+      : { widget: "schedule" as const, format: scheduleFormat, bot_username: botUsername, style };
 
   const p = btoa(JSON.stringify(payload));
   const generatedUrl = `${window.location.origin}${window.location.pathname}?p=${p}`;
@@ -121,6 +125,7 @@ export function useBuilderState(): BuilderState {
     minValue, setMinValue,
     maxValue, setMaxValue,
     colorFormat, setColorFormat,
+    scheduleFormat, setScheduleFormat,
     liquidGlass, setLiquidGlass,
     colorScheme, setColorScheme,
     adaptTgTheme, setAdaptTgTheme,

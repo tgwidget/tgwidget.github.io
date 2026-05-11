@@ -19,7 +19,7 @@ Beautiful Telegram Mini App widgets for bots — date/time pickers, color picker
 |--------|-------|---------|
 | **Date** | `date`, `time`, `datetime`, `date-range`, `time-range` | `default`, `unix-s`, `unix-ms` |
 | **Color** | — | `hex`, `rgb`, `hsl` |
-| **Schedule** | — | `bunch` (56-char weekly format) |
+| **Schedule** | — | `bunch` (56-char weekly range), `point` (28-char daily time) |
 
 ## SDKs
 
