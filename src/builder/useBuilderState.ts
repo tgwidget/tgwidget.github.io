@@ -24,6 +24,18 @@ export interface BuilderState {
   dateOrder: DateOrder;
   setDateOrder: (v: DateOrder) => void;
 
+  autoNow: boolean;
+  setAutoNow: (v: boolean) => void;
+
+  defaultValue: string;
+  setDefaultValue: (v: string) => void;
+
+  minValue: string;
+  setMinValue: (v: string) => void;
+
+  maxValue: string;
+  setMaxValue: (v: string) => void;
+
   colorFormat: ColorFormat;
   setColorFormat: (v: ColorFormat) => void;
 
@@ -63,6 +75,10 @@ export function useBuilderState(): BuilderState {
   const [dateRange, setDateRange] = useState(false);
   const [dateFormat, setDateFormat] = useState<DateFormat>("default");
   const [dateOrder, setDateOrder] = useState<DateOrder>("ymd");
+  const [autoNow, setAutoNow] = useState(true);
+  const [defaultValue, setDefaultValue] = useState("");
+  const [minValue, setMinValue] = useState("");
+  const [maxValue, setMaxValue] = useState("");
   const [colorFormat, setColorFormat] = useState<ColorFormat>("hex");
   const [liquidGlass, setLiquidGlass] = useState(false);
   const [colorScheme, setColorScheme] = useState<ColorScheme>("light");
@@ -74,9 +90,17 @@ export function useBuilderState(): BuilderState {
   const dateMode = resolveMode(dateKind, dateRange);
   const style: WidgetStyle = { liquidGlass, accent, tint, colorScheme, adaptTgTheme, adoptTgPalette };
 
+  const datePayload: Record<string, unknown> = {
+    widget: "date" as const, mode: dateMode, format: dateFormat, order: dateOrder, bot_username: botUsername, style,
+  };
+  if (!autoNow) datePayload.autoNow = false;
+  if (defaultValue) datePayload.default = defaultValue;
+  if (minValue) datePayload.min = minValue;
+  if (maxValue) datePayload.max = maxValue;
+
   const payload =
     widgetType === "date"
-      ? { widget: "date" as const, mode: dateMode, format: dateFormat, order: dateOrder, bot_username: botUsername, style }
+      ? datePayload
       : widgetType === "color"
       ? { widget: "color" as const, format: colorFormat, bot_username: botUsername, style }
       : { widget: "schedule" as const, format: "bunch" as const, bot_username: botUsername, style };
@@ -92,6 +116,10 @@ export function useBuilderState(): BuilderState {
     dateMode,
     dateFormat, setDateFormat,
     dateOrder, setDateOrder,
+    autoNow, setAutoNow,
+    defaultValue, setDefaultValue,
+    minValue, setMinValue,
+    maxValue, setMaxValue,
     colorFormat, setColorFormat,
     liquidGlass, setLiquidGlass,
     colorScheme, setColorScheme,

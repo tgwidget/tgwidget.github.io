@@ -238,6 +238,48 @@ export function BuilderPage() {
 								</div>
 							</Field>
 						)}
+
+						<div class='h-px bg-black/5' />
+
+						{(s.dateKind === 'time' || s.dateKind === 'datetime') && (
+							<>
+								<div class='flex items-center justify-between'>
+									<div class='flex flex-col gap-0.5'>
+										<span class='text-sm font-medium text-gray-600'>Auto-select current time</span>
+										<span class='text-xs text-gray-400'>Pre-fill widget with current time on open</span>
+									</div>
+									<Toggle value={s.autoNow} onChange={s.setAutoNow} />
+								</div>
+								{!s.autoNow && (
+									<Field label='Default value'>
+										<Input
+											type='text'
+											placeholder={s.dateMode === 'time-seconds' ? '00-00-00' : '00-00'}
+											value={s.defaultValue}
+											onInput={(e) => s.setDefaultValue((e.target as HTMLInputElement).value)}
+										/>
+									</Field>
+								)}
+								<div class='flex gap-3'>
+									<Field label='Min time'>
+										<Input
+											type='text'
+											placeholder={s.dateMode === 'time-seconds' ? '00-00-00' : '00-00'}
+											value={s.minValue}
+											onInput={(e) => s.setMinValue((e.target as HTMLInputElement).value)}
+										/>
+									</Field>
+									<Field label='Max time'>
+										<Input
+											type='text'
+											placeholder={s.dateMode === 'time-seconds' ? '23-59-59' : '23-59'}
+											value={s.maxValue}
+											onInput={(e) => s.setMaxValue((e.target as HTMLInputElement).value)}
+										/>
+									</Field>
+								</div>
+							</>
+						)}
 					</Section>
 				)}
 
