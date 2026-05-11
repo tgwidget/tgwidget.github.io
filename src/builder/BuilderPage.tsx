@@ -1,7 +1,7 @@
 import { useState } from 'preact/hooks'
 import { useBuilderState } from './useBuilderState'
 import { hapticImpact, hapticNotification } from '../lib/tma'
-import type { DateFormat, DateKind, DateMode, DateOrder } from '../lib/payload'
+import type { DateFormat, DateKind, DateMode, DateOrder, ScheduleFormat } from '../lib/payload'
 import { Toggle } from '../components/Toggle'
 
 const ACCENT = '#007AFF'
@@ -308,22 +308,53 @@ export function BuilderPage() {
 
 				{showScheduleOptions && (
 					<Section title='Schedule options'>
-						<div class='rounded-xl bg-black/5 px-3 py-2.5 flex flex-col gap-1'>
-							<span class='text-xs font-semibold text-gray-500'>Format: bunch</span>
-							<span class='text-xs text-gray-400 leading-relaxed'>
-								7 days × <span class='font-mono'>HHMMHHMm</span> — 56 chars, no separators. Disabled days encoded
-								as <span class='font-mono'>00000000</span>.
-							</span>
-						</div>
-						<div class='rounded-xl bg-black/5 px-3 py-2'>
-							<span class='text-xs text-gray-400 font-medium'>Example: </span>
-							<span class='text-xs font-mono text-gray-600 break-all'>
-								09001800090018000000000009001800090018000000000000000000
-							</span>
-						</div>
-						<div class='text-xs text-gray-400 leading-relaxed px-1'>
-							Mon 09:00–18:00, Tue 09:00–18:00, Wed off, Thu 09:00–18:00, Fri 09:00–18:00, Sat off, Sun off
-						</div>
+						<Field label='Mode'>
+							<SegmentedControl
+								options={[
+									{ label: 'Range', value: 'bunch' },
+									{ label: 'Fixed time', value: 'point' },
+								]}
+								value={s.scheduleFormat}
+								onChange={(v) => s.setScheduleFormat(v as ScheduleFormat)}
+							/>
+						</Field>
+						{s.scheduleFormat === 'bunch' ? (
+							<>
+								<div class='rounded-xl bg-black/5 px-3 py-2.5 flex flex-col gap-1'>
+									<span class='text-xs font-semibold text-gray-500'>Format: bunch</span>
+									<span class='text-xs text-gray-400 leading-relaxed'>
+										7 days × <span class='font-mono'>HHMM HHMM</span> — 56 chars. Disabled = <span class='font-mono'>00000000</span>.
+									</span>
+								</div>
+								<div class='rounded-xl bg-black/5 px-3 py-2'>
+									<span class='text-xs text-gray-400 font-medium'>Example: </span>
+									<span class='text-xs font-mono text-gray-600 break-all'>
+										09001800090018000000000009001800090018000000000000000000
+									</span>
+								</div>
+								<div class='text-xs text-gray-400 leading-relaxed px-1'>
+									Mon 09:00–18:00, Tue 09:00–18:00, Wed off, Thu 09:00–18:00, Fri 09:00–18:00, Sat off, Sun off
+								</div>
+							</>
+						) : (
+							<>
+								<div class='rounded-xl bg-black/5 px-3 py-2.5 flex flex-col gap-1'>
+									<span class='text-xs font-semibold text-gray-500'>Format: point</span>
+									<span class='text-xs text-gray-400 leading-relaxed'>
+										7 days × <span class='font-mono'>HHMM</span> — 28 chars. Disabled = <span class='font-mono'>9999</span>.
+									</span>
+								</div>
+								<div class='rounded-xl bg-black/5 px-3 py-2'>
+									<span class='text-xs text-gray-400 font-medium'>Example: </span>
+									<span class='text-xs font-mono text-gray-600 break-all'>
+										1200120099991200120099999999
+									</span>
+								</div>
+								<div class='text-xs text-gray-400 leading-relaxed px-1'>
+									Mon 12:00, Tue 12:00, Wed off, Thu 12:00, Fri 12:00, Sat off, Sun off
+								</div>
+							</>
+						)}
 					</Section>
 				)}
 
