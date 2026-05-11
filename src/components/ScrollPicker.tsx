@@ -10,8 +10,8 @@ interface Props {
 	theme?: Theme
 }
 
-const ITEM_HEIGHT = 52
-const VISIBLE = 5
+const ITEM_HEIGHT = 44
+const VISIBLE = 3
 const PADDING = Math.floor(VISIBLE / 2)
 // Max rotation angle for items at the edge (slots away from center)
 const MAX_ANGLE = 40
@@ -131,12 +131,12 @@ export function ScrollPicker({ items, value, onChange, width = '80px', theme }: 
 			/>
 			{/* top fade */}
 			<div
-				class='pointer-events-none absolute inset-x-0 top-0 z-10 h-16'
+				class='pointer-events-none absolute inset-x-0 top-0 z-10 h-10'
 				style={{ background: `linear-gradient(to bottom, ${theme?.fade ?? '#F2F2F7'}, transparent)` }}
 			/>
 			{/* bottom fade */}
 			<div
-				class='pointer-events-none absolute inset-x-0 bottom-0 z-10 h-16'
+				class='pointer-events-none absolute inset-x-0 bottom-0 z-10 h-10'
 				style={{ background: `linear-gradient(to top, ${theme?.fade ?? '#F2F2F7'}, transparent)` }}
 			/>
 
