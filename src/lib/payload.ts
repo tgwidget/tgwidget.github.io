@@ -1,5 +1,5 @@
 export type DateKind = 'date' | 'time' | 'datetime'
-export type DateMode = 'date' | 'time' | 'datetime' | 'date-range' | 'time-range'
+export type DateMode = 'date' | 'time' | 'time-seconds' | 'datetime' | 'date-range' | 'time-range'
 export type DateFormat = 'default' | 'unix-s' | 'unix-ms'
 export type DateOrder = 'ymd' | 'dmy' | 'mdy'
 export type ColorFormat = 'hex' | 'rgb' | 'hsl'
