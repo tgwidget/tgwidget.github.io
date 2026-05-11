@@ -3,7 +3,7 @@ export type DateMode = 'date' | 'time' | 'time-seconds' | 'datetime' | 'date-ran
 export type DateFormat = 'default' | 'unix-s' | 'unix-ms'
 export type DateOrder = 'ymd' | 'dmy' | 'mdy'
 export type ColorFormat = 'hex' | 'rgb' | 'hsl'
-export type ScheduleFormat = 'bunch' | 'point'
+export type ScheduleFormat = 'range' | 'single'
 
 export type ColorScheme = 'light' | 'dark' | 'auto'
 
