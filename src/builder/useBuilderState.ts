@@ -83,7 +83,7 @@ export function useBuilderState(): BuilderState {
   const [minValue, setMinValue] = useState("");
   const [maxValue, setMaxValue] = useState("");
   const [colorFormat, setColorFormat] = useState<ColorFormat>("hex");
-  const [scheduleFormat, setScheduleFormat] = useState<ScheduleFormat>("bunch");
+  const [scheduleFormat, setScheduleFormat] = useState<ScheduleFormat>("range");
   const [liquidGlass, setLiquidGlass] = useState(false);
   const [colorScheme, setColorScheme] = useState<ColorScheme>("light");
   const [adaptTgTheme, setAdaptTgTheme] = useState(false);

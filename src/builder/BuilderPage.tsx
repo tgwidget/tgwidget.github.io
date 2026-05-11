@@ -311,17 +311,17 @@ export function BuilderPage() {
 						<Field label='Mode'>
 							<SegmentedControl
 								options={[
-									{ label: 'Range', value: 'bunch' },
-									{ label: 'Fixed time', value: 'point' },
+									{ label: 'Range', value: 'range' },
+									{ label: 'Fixed time', value: 'single' },
 								]}
 								value={s.scheduleFormat}
 								onChange={(v) => s.setScheduleFormat(v as ScheduleFormat)}
 							/>
 						</Field>
-						{s.scheduleFormat === 'bunch' ? (
+						{s.scheduleFormat === 'range' ? (
 							<>
 								<div class='rounded-xl bg-black/5 px-3 py-2.5 flex flex-col gap-1'>
-									<span class='text-xs font-semibold text-gray-500'>Format: bunch</span>
+									<span class='text-xs font-semibold text-gray-500'>Format: range</span>
 									<span class='text-xs text-gray-400 leading-relaxed'>
 										7 days × <span class='font-mono'>HHMM HHMM</span> — 56 chars. Disabled = <span class='font-mono'>00000000</span>.
 									</span>
@@ -339,7 +339,7 @@ export function BuilderPage() {
 						) : (
 							<>
 								<div class='rounded-xl bg-black/5 px-3 py-2.5 flex flex-col gap-1'>
-									<span class='text-xs font-semibold text-gray-500'>Format: point</span>
+									<span class='text-xs font-semibold text-gray-500'>Format: single</span>
 									<span class='text-xs text-gray-400 leading-relaxed'>
 										7 days × <span class='font-mono'>HHMM</span> — 28 chars. Disabled = <span class='font-mono'>9999</span>.
 									</span>

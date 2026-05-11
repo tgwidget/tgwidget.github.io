@@ -13,7 +13,7 @@ interface Props {
 const HOURS = Array.from({ length: 24 }, (_, i) => String(i).padStart(2, "0"));
 const MINUTES = Array.from({ length: 60 }, (_, i) => String(i).padStart(2, "0"));
 
-// ── Range mode (bunch format) ───────────────────────────────────────
+// ── Range mode (range format) ───────────────────────────────────────
 
 interface RangeSlot {
   enabled: boolean;
@@ -27,7 +27,7 @@ function defaultRangeSlot(): RangeSlot {
   return { enabled: false, fromH: "09", fromM: "00", toH: "18", toM: "00" };
 }
 
-function encodeBunch(slots: RangeSlot[]): string {
+function encodeRange(slots: RangeSlot[]): string {
   return slots
     .map((s) =>
       s.enabled
@@ -37,19 +37,19 @@ function encodeBunch(slots: RangeSlot[]): string {
     .join("");
 }
 
-// ── Point mode (point format) ───────────────────────────────────────
+// ── Single mode (single format) ───────────────────────────────────────
 
-interface PointSlot {
+interface SingleSlot {
   enabled: boolean;
   h: string;
   m: string;
 }
 
-function defaultPointSlot(): PointSlot {
+function defaultSingleSlot(): SingleSlot {
   return { enabled: false, h: "12", m: "00" };
 }
 
-function encodePoint(slots: PointSlot[]): string {
+function encodeSingle(slots: SingleSlot[]): string {
   return slots
     .map((s) => (s.enabled ? `${s.h}${s.m}` : "9999"))
     .join("");
@@ -120,9 +120,9 @@ function RangeDayRow({
   );
 }
 
-// ── Day row for point mode ──────────────────────────────────────────
+// ── Day row for single mode ──────────────────────────────────────────
 
-function PointDayRow({
+function SingleDayRow({
   day,
   slot,
   expanded,
@@ -133,11 +133,11 @@ function PointDayRow({
   theme,
 }: {
   day: string;
-  slot: PointSlot;
+  slot: SingleSlot;
   expanded: boolean;
   onToggle: () => void;
   onExpand: () => void;
-  onChange: (patch: Partial<PointSlot>) => void;
+  onChange: (patch: Partial<SingleSlot>) => void;
   accent: string;
   theme: import("../../lib/style").Theme;
 }) {
@@ -182,23 +182,23 @@ function PointDayRow({
 export function ScheduleWidget({ payload }: Props) {
   const s = useResolvedStyle(payload.style);
   const DAYS = getDaysShort();
-  const isPoint = payload.format === "point";
+  const isSingle = payload.format === "single";
 
   const [rangeSlots, setRangeSlots] = useState<RangeSlot[]>(() => DAYS.map(defaultRangeSlot));
-  const [pointSlots, setPointSlots] = useState<PointSlot[]>(() => DAYS.map(defaultPointSlot));
+  const [singleSlots, setSingleSlots] = useState<SingleSlot[]>(() => DAYS.map(defaultSingleSlot));
   const [expandedDay, setExpandedDay] = useState<number | null>(null);
 
   function patchRange(i: number, patch: Partial<RangeSlot>) {
     setRangeSlots((prev) => prev.map((s, j) => (j === i ? { ...s, ...patch } : s)));
   }
 
-  function patchPoint(i: number, patch: Partial<PointSlot>) {
-    setPointSlots((prev) => prev.map((s, j) => (j === i ? { ...s, ...patch } : s)));
+  function patchSingle(i: number, patch: Partial<SingleSlot>) {
+    setSingleSlots((prev) => prev.map((s, j) => (j === i ? { ...s, ...patch } : s)));
   }
 
   function handleConfirm() {
     hapticNotification("success");
-    const encoded = isPoint ? encodePoint(pointSlots) : encodeBunch(rangeSlots);
+    const encoded = isSingle ? encodeSingle(singleSlots) : encodeRange(rangeSlots);
     submitAndClose(encodeResult(payload, encoded));
   }
 
@@ -209,21 +209,21 @@ export function ScheduleWidget({ payload }: Props) {
 
         <div class="flex flex-col">
           {DAYS.map((day, i) =>
-            isPoint ? (
-              <PointDayRow
+            isSingle ? (
+              <SingleDayRow
                 key={day}
                 day={day}
-                slot={pointSlots[i]!}
+                slot={singleSlots[i]!}
                 expanded={expandedDay === i}
                 accent={s.accent}
                 theme={s.theme}
                 onToggle={() => {
-                  patchPoint(i, { enabled: !pointSlots[i]!.enabled });
-                  if (!pointSlots[i]!.enabled) setExpandedDay(i);
+                  patchSingle(i, { enabled: !singleSlots[i]!.enabled });
+                  if (!singleSlots[i]!.enabled) setExpandedDay(i);
                   else if (expandedDay === i) setExpandedDay(null);
                 }}
                 onExpand={() => setExpandedDay(expandedDay === i ? null : i)}
-                onChange={(patch) => patchPoint(i, patch)}
+                onChange={(patch) => patchSingle(i, patch)}
               />
             ) : (
               <RangeDayRow
