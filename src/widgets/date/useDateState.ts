@@ -19,17 +19,45 @@ function toUnix(date: string, hours: string, minutes: string): number {
   return new Date(y!, m! - 1, d!, Number(hours), Number(minutes)).getTime();
 }
 
-export function useDateState(mode: DateMode, format: DateFormat = "default", order: DateOrder = "ymd") {
+function parseTimeParts(str: string): [string, string, string] {
+  const p = str.split("-");
+  return [p[0] ?? "00", p[1] ?? "00", p[2] ?? "00"];
+}
+
+export interface DateStateOpts {
+  autoNow?: boolean;
+  default?: string;
+  min?: string;
+  max?: string;
+}
+
+export function useDateState(
+  mode: DateMode,
+  format: DateFormat = "default",
+  order: DateOrder = "ymd",
+  opts: DateStateOpts = {},
+) {
   const now = new Date();
   const today = now.toISOString().slice(0, 10);
 
+  const useNow = opts.autoNow !== false;
+
+  let initH: string, initM: string, initS: string;
+  if (!useNow && opts.default) {
+    [initH, initM, initS] = parseTimeParts(opts.default);
+  } else if (!useNow) {
+    [initH, initM, initS] = ["00", "00", "00"];
+  } else {
+    [initH, initM, initS] = [pad(now.getHours()), pad(now.getMinutes()), pad(now.getSeconds())];
+  }
+
   const [date, setDate] = useState(today);
-  const [hours, setHours] = useState(pad(now.getHours()));
-  const [minutes, setMinutes] = useState(pad(now.getMinutes()));
+  const [hours, setHours] = useState(initH);
+  const [minutes, setMinutes] = useState(initM);
   const [dateEnd, setDateEnd] = useState(today);
-  const [seconds, setSeconds] = useState(pad(now.getSeconds()));
-  const [hoursEnd, setHoursEnd] = useState(pad(now.getHours()));
-  const [minutesEnd, setMinutesEnd] = useState(pad(now.getMinutes()));
+  const [seconds, setSeconds] = useState(initS);
+  const [hoursEnd, setHoursEnd] = useState(useNow ? pad(now.getHours()) : "00");
+  const [minutesEnd, setMinutesEnd] = useState(useNow ? pad(now.getMinutes()) : "00");
 
   function buildResult(): string {
     const div = format === "unix-s" ? 1000 : 1;

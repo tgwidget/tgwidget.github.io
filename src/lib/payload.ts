@@ -28,6 +28,10 @@ export interface DatePayload extends BasePayload {
 	mode: DateMode
 	format?: DateFormat
 	order?: DateOrder
+	autoNow?: boolean
+	default?: string
+	min?: string
+	max?: string
 }
 
 export interface ColorPayload extends BasePayload {
