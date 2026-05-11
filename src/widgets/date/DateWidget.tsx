@@ -13,11 +13,13 @@ interface Props {
 
 const HOURS = Array.from({ length: 24 }, (_, i) => String(i).padStart(2, "0"));
 const MINUTES = Array.from({ length: 60 }, (_, i) => String(i).padStart(2, "0"));
+const SECONDS = Array.from({ length: 60 }, (_, i) => String(i).padStart(2, "0"));
 
 function getModeTitle(mode: string): string {
   switch (mode) {
     case "date": return t("select_date");
     case "time": return t("select_time");
+    case "time-seconds": return t("select_time_seconds");
     case "datetime": return t("select_datetime");
     case "date-range": return t("select_date_range");
     case "time-range": return t("select_time_range");
@@ -25,12 +27,14 @@ function getModeTitle(mode: string): string {
   }
 }
 
-function TimePicker({ label, hours, minutes, setHours, setMinutes, theme }: {
+function TimePicker({ label, hours, minutes, seconds, setHours, setMinutes, setSeconds, theme }: {
   label?: string;
   hours: string;
   minutes: string;
+  seconds?: string;
   setHours: (v: string) => void;
   setMinutes: (v: string) => void;
+  setSeconds?: (v: string) => void;
   theme?: import("../../lib/style").Theme;
 }) {
   return (
@@ -40,6 +44,12 @@ function TimePicker({ label, hours, minutes, setHours, setMinutes, theme }: {
         <ScrollPicker items={HOURS} value={hours} onChange={setHours} width="72px" theme={theme} />
         <span class="text-2xl font-semibold pb-0.5 select-none" style={{ color: theme?.separator ?? "rgba(0,0,0,0.15)" }}>:</span>
         <ScrollPicker items={MINUTES} value={minutes} onChange={setMinutes} width="72px" theme={theme} />
+        {seconds !== undefined && setSeconds && (
+          <>
+            <span class="text-2xl font-semibold pb-0.5 select-none" style={{ color: theme?.separator ?? "rgba(0,0,0,0.15)" }}>:</span>
+            <ScrollPicker items={SECONDS} value={seconds} onChange={setSeconds} width="72px" theme={theme} />
+          </>
+        )}
       </div>
     </div>
   );
@@ -48,13 +58,14 @@ function TimePicker({ label, hours, minutes, setHours, setMinutes, theme }: {
 export function DateWidget({ payload }: Props) {
   const s = useResolvedStyle(payload.style);
   const {
-    date, setDate, hours, setHours, minutes, setMinutes,
+    date, setDate, hours, setHours, minutes, setMinutes, seconds, setSeconds,
     dateEnd, setDateEnd, hoursEnd, setHoursEnd, minutesEnd, setMinutesEnd,
     buildResult,
   } = useDateState(payload.mode, payload.format, payload.order);
 
-  const showDate = payload.mode !== "time" && payload.mode !== "time-range";
+  const showDate = payload.mode !== "time" && payload.mode !== "time-seconds" && payload.mode !== "time-range";
   const showTime = payload.mode === "time" || payload.mode === "datetime";
+  const showTimeSeconds = payload.mode === "time-seconds";
   const showDateEnd = payload.mode === "date-range";
   const showTimeRange = payload.mode === "time-range";
 
@@ -83,6 +94,10 @@ export function DateWidget({ payload }: Props) {
 
         {showTime && (
           <TimePicker hours={hours} minutes={minutes} setHours={setHours} setMinutes={setMinutes} theme={s.theme} />
+        )}
+
+        {showTimeSeconds && (
+          <TimePicker hours={hours} minutes={minutes} seconds={seconds} setHours={setHours} setMinutes={setMinutes} setSeconds={setSeconds} theme={s.theme} />
         )}
 
         {showTimeRange && (

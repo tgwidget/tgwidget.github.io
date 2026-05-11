@@ -27,6 +27,7 @@ export function useDateState(mode: DateMode, format: DateFormat = "default", ord
   const [hours, setHours] = useState(pad(now.getHours()));
   const [minutes, setMinutes] = useState(pad(now.getMinutes()));
   const [dateEnd, setDateEnd] = useState(today);
+  const [seconds, setSeconds] = useState(pad(now.getSeconds()));
   const [hoursEnd, setHoursEnd] = useState(pad(now.getHours()));
   const [minutesEnd, setMinutesEnd] = useState(pad(now.getMinutes()));
 
@@ -40,6 +41,9 @@ export function useDateState(mode: DateMode, format: DateFormat = "default", ord
       case "time":
         if (format !== "default") return String(Math.floor(toUnix(date, hours, minutes) / div));
         return `${hours}-${minutes}`;
+      case "time-seconds":
+        if (format !== "default") return String(Math.floor(toUnix(date, hours, minutes) / div));
+        return `${hours}-${minutes}-${seconds}`;
       case "datetime":
         if (format !== "default") return String(Math.floor(toUnix(date, hours, minutes) / div));
         return `${formatDate(date, order)}_${hours}-${minutes}`;
@@ -64,6 +68,7 @@ export function useDateState(mode: DateMode, format: DateFormat = "default", ord
     date, setDate,
     hours, setHours,
     minutes, setMinutes,
+    seconds, setSeconds,
     dateEnd, setDateEnd,
     hoursEnd, setHoursEnd,
     minutesEnd, setMinutesEnd,
