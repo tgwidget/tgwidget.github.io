@@ -16,6 +16,9 @@ export interface BuilderState {
   dateRange: boolean;
   setDateRange: (v: boolean) => void;
 
+  showSeconds: boolean;
+  setShowSeconds: (v: boolean) => void;
+
   dateMode: DateMode;
 
   dateFormat: DateFormat;
@@ -63,11 +66,12 @@ export interface BuilderState {
   generatedUrl: string;
 }
 
-function resolveMode(kind: DateKind, range: boolean): DateMode {
+function resolveMode(kind: DateKind, range: boolean, seconds: boolean): DateMode {
   if (range) {
     if (kind === "date") return "date-range";
     if (kind === "time") return "time-range";
   }
+  if (kind === "time" && seconds) return "time-seconds";
   return kind;
 }
 
@@ -76,6 +80,7 @@ export function useBuilderState(): BuilderState {
   const [botUsername, setBotUsername] = useState("");
   const [dateKind, setDateKind] = useState<DateKind>("date");
   const [dateRange, setDateRange] = useState(false);
+  const [showSeconds, setShowSeconds] = useState(false);
   const [dateFormat, setDateFormat] = useState<DateFormat>("default");
   const [dateOrder, setDateOrder] = useState<DateOrder>("ymd");
   const [autoNow, setAutoNow] = useState(true);
@@ -91,7 +96,7 @@ export function useBuilderState(): BuilderState {
   const [accent, setAccent] = useState("#007AFF");
   const [tint, setTint] = useState("#F2F2F7");
 
-  const dateMode = resolveMode(dateKind, dateRange);
+  const dateMode = resolveMode(dateKind, dateRange, showSeconds);
   const style: WidgetStyle = { liquidGlass, accent, tint, colorScheme, adaptTgTheme, adoptTgPalette };
 
   const datePayload: Record<string, unknown> = {
@@ -117,6 +122,7 @@ export function useBuilderState(): BuilderState {
     botUsername, setBotUsername,
     dateKind, setDateKind,
     dateRange, setDateRange,
+    showSeconds, setShowSeconds,
     dateMode,
     dateFormat, setDateFormat,
     dateOrder, setDateOrder,
