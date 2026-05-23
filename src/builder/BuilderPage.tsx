@@ -73,6 +73,7 @@ function dateFormatExample(format: DateFormat, mode: DateMode, order: DateOrder)
 	const d = String(EXAMPLE_DATE.getDate()).padStart(2, '0')
 	const H = String(EXAMPLE_DATE.getHours()).padStart(2, '0')
 	const M = String(EXAMPLE_DATE.getMinutes()).padStart(2, '0')
+	const S = '45'
 
 	const midnight = new Date(y, EXAMPLE_DATE.getMonth(), EXAMPLE_DATE.getDate())
 	const midnightEnd = new Date(y, EXAMPLE_DATE.getMonth() + 3, EXAMPLE_DATE.getDate())
@@ -100,6 +101,9 @@ function dateFormatExample(format: DateFormat, mode: DateMode, order: DateOrder)
 		case 'time':
 			if (format !== 'default') return String(Math.floor(withTime.getTime() / div))
 			return `${H}-${M}`
+		case 'time-seconds':
+			if (format !== 'default') return String(Math.floor(withTime.getTime() / div))
+			return `${H}-${M}-${S}`
 		case 'datetime':
 			if (format !== 'default') return String(Math.floor(withTime.getTime() / div))
 			return `${fmtDate(midnight)}_${H}-${M}`
@@ -193,7 +197,19 @@ export function BuilderPage() {
 						{s.dateKind !== 'datetime' && (
 							<div class='flex items-center justify-between'>
 								<span class='text-sm font-medium text-gray-600'>Range</span>
-								<Toggle value={s.dateRange} onChange={s.setDateRange} />
+								<Toggle value={s.dateRange} onChange={(v) => {
+									s.setDateRange(v)
+									if (v) s.setShowSeconds(false)
+								}} />
+							</div>
+						)}
+						{s.dateKind === 'time' && !s.dateRange && (
+							<div class='flex items-center justify-between'>
+								<div class='flex flex-col gap-0.5'>
+									<span class='text-sm font-medium text-gray-600'>Seconds</span>
+									<span class='text-xs text-gray-400'>HH:MM:SS format</span>
+								</div>
+								<Toggle value={s.showSeconds} onChange={s.setShowSeconds} />
 							</div>
 						)}
 						{
