@@ -39,6 +39,9 @@ export interface BuilderState {
   maxValue: string;
   setMaxValue: (v: string) => void;
 
+  utcOffset: string;
+  setUtcOffset: (v: string) => void;
+
   colorFormat: ColorFormat;
   setColorFormat: (v: ColorFormat) => void;
 
@@ -75,6 +78,16 @@ function resolveMode(kind: DateKind, range: boolean, seconds: boolean): DateMode
   return kind;
 }
 
+const MIN_UTC_OFFSET_MINUTES = -720;
+const MAX_UTC_OFFSET_MINUTES = 840;
+
+function parseUtcOffset(raw: string): number | undefined {
+  if (raw.trim() === "") return undefined;
+  const n = Number(raw);
+  if (!Number.isInteger(n) || n < MIN_UTC_OFFSET_MINUTES || n > MAX_UTC_OFFSET_MINUTES) return undefined;
+  return n;
+}
+
 export function useBuilderState(): BuilderState {
   const [widgetType, setWidgetType] = useState<WidgetType>("date");
   const [botUsername, setBotUsername] = useState("");
@@ -87,6 +100,7 @@ export function useBuilderState(): BuilderState {
   const [defaultValue, setDefaultValue] = useState("");
   const [minValue, setMinValue] = useState("");
   const [maxValue, setMaxValue] = useState("");
+  const [utcOffset, setUtcOffset] = useState("");
   const [colorFormat, setColorFormat] = useState<ColorFormat>("hex");
   const [scheduleFormat, setScheduleFormat] = useState<ScheduleFormat>("range");
   const [liquidGlass, setLiquidGlass] = useState(false);
@@ -106,6 +120,8 @@ export function useBuilderState(): BuilderState {
   if (defaultValue) datePayload.default = defaultValue;
   if (minValue) datePayload.min = minValue;
   if (maxValue) datePayload.max = maxValue;
+  const parsedUtcOffset = parseUtcOffset(utcOffset);
+  if (parsedUtcOffset !== undefined) datePayload.utcOffset = parsedUtcOffset;
 
   const payload =
     widgetType === "date"
@@ -130,6 +146,7 @@ export function useBuilderState(): BuilderState {
     defaultValue, setDefaultValue,
     minValue, setMinValue,
     maxValue, setMaxValue,
+    utcOffset, setUtcOffset,
     colorFormat, setColorFormat,
     scheduleFormat, setScheduleFormat,
     liquidGlass, setLiquidGlass,

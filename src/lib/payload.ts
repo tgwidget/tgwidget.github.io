@@ -32,6 +32,11 @@ export interface DatePayload extends BasePayload {
 	default?: string
 	min?: string
 	max?: string
+	/**
+	 * Pin the widget to a fixed UTC offset (in minutes, e.g. 180 for MSK).
+	 * If omitted, the picker uses the viewer's current device timezone.
+	 */
+	utcOffset?: number
 }
 
 export interface ColorPayload extends BasePayload {

@@ -255,6 +255,19 @@ export function BuilderPage() {
 							</Field>
 						)}
 
+						<Field label='Fixed UTC offset (optional)'>
+							<Input
+								type='number'
+								step={1}
+								placeholder='e.g. 180 for MSK (UTC+3)'
+								value={s.utcOffset}
+								onInput={(e) => s.setUtcOffset((e.target as HTMLInputElement).value)}
+							/>
+							<span class='text-xs text-gray-400 px-1'>
+								Minutes from UTC. Leave empty to use the viewer's own device timezone.
+							</span>
+						</Field>
+
 						<div class='h-px bg-black/5' />
 
 						{(s.dateKind === 'time' || s.dateKind === 'datetime') && (

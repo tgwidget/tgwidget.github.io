@@ -102,6 +102,7 @@ export function DateWidget({ payload }: Props) {
     default: payload.default,
     min: payload.min,
     max: payload.max,
+    utcOffset: payload.utcOffset,
   });
 
   const clamped = clampedTimeArrays(payload.min, payload.max);
